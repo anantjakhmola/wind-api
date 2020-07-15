@@ -1,5 +1,5 @@
 # !flask/bin/python
-from flask import Flask, jsonify,request
+from flask import Flask, jsonify,request,send_file
 import json
 
 app = Flask(__name__)
@@ -10,6 +10,12 @@ def get_tasks():
     preds = json.load(f)
   preds = preds[0]
   return jsonify(preds)
+
+@app.route('/datawithtype', methods=['GET'])
+def get_query_new_string():  
+  fileName =  request.args.get('file')
+  fileType =  request.args.get('type')
+  return send_file('data/{}.{}'.format(fileName,fileType), as_attachment=True)
 
 @app.route('/data', methods=['GET'])
 def get_query_string():  
